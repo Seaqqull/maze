@@ -10,7 +10,7 @@ UCLASS()
 class MDGEN_API AMazeGenerationLogic : public AActor
 {
 	GENERATED_BODY()
-	
+
 public:
 	// Sets default values for this actor's properties
 	AMazeGenerationLogic();
@@ -19,22 +19,16 @@ public:
 	/**/
 	//MazeGen maze;
 	class MazeGen* maze;
-	/** brick to spawn */
-	//UPROPERTY(EditAnywhere, Category = Spawning)
-	//TSubclassOf<class AGeneration> WhatToSpawn;
-		//TSubclassOf<class AGeneration> WhatToSpawn;
-	
-	
+	class Room* room;
 
-	UPROPERTY(EditAnywhere, Category = Spawning)
-		TArray<UStaticMesh*> StaticMeshToSpawn;
+	/** brick to spawn */
+	/*UPROPERTY(EditAnywhere, Category = Spawning)
+	TArray<TSubclassOf<class AGeneration>> WhatToSpawn;*/
 
 	/** BoxComponent to specify the spawning area within the level */
 	UPROPERTY(VisibleInstanceOnly, Category = Spawning)
-	UBoxComponent* WhereToSpawn;
+		UBoxComponent* WhereToSpawn;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Spawning)
-		TArray<FVector> StaticMeshLocationCorrect;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Spawning)
 		int SizeMazeX;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Spawning)
@@ -42,25 +36,31 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Spawning)
 		int SizeRoomXZ;
 
-	UFUNCTION(BlueprintPure, Category = Spawning)
-		bool SuperGenMaze();
+
+	UFUNCTION(BlueprintCallable, Category = Spawning)
+		int GetWallOrienration(int i, int j);
+	UFUNCTION(BlueprintCallable, Category = Spawning)
+		void SuperGenMaze();
+	UFUNCTION(BlueprintCallable, Category = Spawning)
+		void SpawnMeshComponent(int i, int j, FVector& SpawnLocation, FRotator& SpawnRotation, int& OutIndex);
+	UFUNCTION(BlueprintCallable, Category = Spawning)
+		void shiftRoomX();
+	UFUNCTION(BlueprintCallable, Category = Spawning)
+		void shiftRoomZ();
+
+
+
 
 
 private:
-	void RegisterMazeComponent();
-	void CreateMeshComponent(int32 indexMeshe, FVector SpawnLocation, FRotator SpawnRotation, FName ConvertedFString);
 
+	//void CreateMeshComponent(int32 indexMeshe, FVector SpawnLocation, FRotator SpawnRotation, FName ConvertedFString);
+	//void CreateMeshComponent1(int32 indexMeshe, FVector SpawnLocation, FRotator SpawnRotation, FName ConvertedFString);
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
-	//AGeneration* const Spawning(int indexBrick, FVector SpawnLocation, FRotator SpawnRotation, FActorSpawnParameters SpawnParams);
-
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-
-	
 };
