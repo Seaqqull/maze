@@ -49,7 +49,7 @@ public:
 	int** Labirint;								//сетка хранящая комнаты и стены
 	int _sizeMazeX, _sizeMazeY, _sizeRoomXY/*, _sizeRoomY*/;
 	bool isGenerationMaze = false;
-	void Dimensioning(int sizeX, int sizeY, int sizeRoomXY/*, int sizeRoomY*/);
+	void Dimensioning(int& sizeX, int& sizeY, int& sizeRoomXY/*, int sizeRoomY*/);
 
 	MazeGen();
 	~MazeGen();
@@ -57,6 +57,8 @@ public:
 
 	void GenerationMST(int number_vertices, list<Edges*> *listEdges = NULL);
 	int GetWall(int currentX, int currentY);
+
+	void ClearingMemory();
 
 	void GenerationMaze()
 	{

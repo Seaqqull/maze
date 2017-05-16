@@ -47,8 +47,8 @@ public:
 		void shiftRoomX();
 	UFUNCTION(BlueprintCallable, Category = Spawning)
 		void shiftRoomZ();
-
-
+	UFUNCTION(BlueprintCallable, Category = Spawning)
+		void ClearingMemory_TEST();
 
 
 

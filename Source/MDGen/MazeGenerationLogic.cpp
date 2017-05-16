@@ -17,6 +17,7 @@ AMazeGenerationLogic::AMazeGenerationLogic()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+	
 }
 
 AMazeGenerationLogic::AMazeGenerationLogic(const FObjectInitializer& ObjectInitializer)
@@ -129,6 +130,7 @@ void AMazeGenerationLogic::SpawnMeshComponent(int i, int j, FVector& SpawnLocati
 
 	if (maze->Labirint[i][j] > 0 || maze->Labirint[i][j] == -1)
 	{
+		OutIndex = 4;
 		//floor
 	}
 	else
@@ -140,7 +142,7 @@ void AMazeGenerationLogic::SpawnMeshComponent(int i, int j, FVector& SpawnLocati
 		SpawnRotation.Yaw = 0.0f;
 		SpawnRotation.Roll = 0.0f;
 
-
+	 
 
 		switch (maze->GetWall(i, j))
 		{
@@ -149,7 +151,7 @@ void AMazeGenerationLogic::SpawnMeshComponent(int i, int j, FVector& SpawnLocati
 			//pDC->FillRect(rect, new CBrush(RGB(240, 248, 255)));
 			SpawnLocation.X = 1.0f * room->getCenterX();
 			SpawnLocation.Y = 1.0f *  room->getCenterY();
-			SpawnRotation.Yaw = 90.0f + 0.000001f;
+			SpawnRotation.Yaw = 90;
 			//CreateMeshComponent(0, SpawnLocation, SpawnRotation, ConvertedFString);
 			OutIndex = 0;
 		}
@@ -168,7 +170,7 @@ void AMazeGenerationLogic::SpawnMeshComponent(int i, int j, FVector& SpawnLocati
 			//pDC->FillRect(rect, new CBrush(RGB(0, 255, 255)));
 			SpawnLocation.X = 1.0f * room->getCenterX();
 			SpawnLocation.Y = 1.0f *  room->getCenterY();
-			SpawnRotation.Yaw = 270.0f + 0.000001f;
+			SpawnRotation.Yaw = 270;
 			//CreateMeshComponent(2, SpawnLocation, SpawnRotation, ConvertedFString);
 			OutIndex = 2;
 		}
@@ -177,7 +179,7 @@ void AMazeGenerationLogic::SpawnMeshComponent(int i, int j, FVector& SpawnLocati
 		{		//pDC->FillRect(rect, new CBrush(RGB(0, 0, 139)));
 			SpawnLocation.X = 1.0f * room->getCenterX();
 			SpawnLocation.Y = 1.0f *  room->getCenterY();
-			SpawnRotation.Yaw = 90.0f + 0.000001f;
+			SpawnRotation.Yaw = 90;
 			//CreateMeshComponent(0, SpawnLocation, SpawnRotation, ConvertedFString);
 			OutIndex = 0;
 		}
@@ -186,7 +188,7 @@ void AMazeGenerationLogic::SpawnMeshComponent(int i, int j, FVector& SpawnLocati
 		{
 			SpawnLocation.X = 1.0f * room->getCenterX();
 			SpawnLocation.Y = 1.0f *  room->getCenterY();
-			SpawnRotation.Yaw = 90.0f + 0.000001f;
+			SpawnRotation.Yaw = 90;
 			//CreateMeshComponent(0, SpawnLocation, SpawnRotation, ConvertedFString);
 			OutIndex = 0;
 		}
@@ -205,7 +207,7 @@ void AMazeGenerationLogic::SpawnMeshComponent(int i, int j, FVector& SpawnLocati
 			//pDC->FillRect(rect, new CBrush(RGB(169, 169, 169)));
 			SpawnLocation.X = 1.0f * room->getCenterX();
 			SpawnLocation.Y = 1.0f *  room->getCenterY();
-			SpawnRotation.Yaw = -90.0f + 0.000001f;
+			SpawnRotation.Yaw = -90;
 			//CreateMeshComponent(1, SpawnLocation, SpawnRotation, ConvertedFString);
 			OutIndex = 1;
 		}
@@ -224,7 +226,7 @@ void AMazeGenerationLogic::SpawnMeshComponent(int i, int j, FVector& SpawnLocati
 			//pDC->FillRect(rect, new CBrush(RGB(189, 183, 107)));
 			SpawnLocation.X = 1.0f * room->getCenterX(); //((UClass*)StaticMesh)
 			SpawnLocation.Y = 1.0f *  room->getCenterY();
-			SpawnRotation.Yaw = 180.0f + 0.000001f;
+			SpawnRotation.Yaw = 180;
 			//CreateMeshComponent(2, SpawnLocation, SpawnRotation, ConvertedFString);
 			OutIndex = 2;
 		}
@@ -243,7 +245,7 @@ void AMazeGenerationLogic::SpawnMeshComponent(int i, int j, FVector& SpawnLocati
 			//pDC->FillRect(rect, new CBrush(RGB(85, 107, 47)));
 			SpawnLocation.X = 1.0f * room->getCenterX();
 			SpawnLocation.Y = 1.0f *  room->getCenterY();
-			SpawnRotation.Yaw = 180.0f + 0.000001f;
+			SpawnRotation.Yaw = 180;
 			//CreateMeshComponent(1, SpawnLocation, SpawnRotation, ConvertedFString);
 			OutIndex = 1;
 		}
@@ -253,7 +255,7 @@ void AMazeGenerationLogic::SpawnMeshComponent(int i, int j, FVector& SpawnLocati
 			//pDC->FillRect(rect, new CBrush(RGB(255, 140, 0)));
 			SpawnLocation.X = 1.0f * room->getCenterX();
 			SpawnLocation.Y = 1.0f *  room->getCenterY();
-			SpawnRotation.Yaw = 90.0f + 0.000001f;
+			SpawnRotation.Yaw = 90;
 			//CreateMeshComponent(2, SpawnLocation, SpawnRotation, ConvertedFString);
 			OutIndex = 2;
 		}
@@ -263,7 +265,7 @@ void AMazeGenerationLogic::SpawnMeshComponent(int i, int j, FVector& SpawnLocati
 			//pDC->FillRect(rect, new CBrush(RGB(153, 50, 204)));
 			SpawnLocation.X = 1.0f * room->getCenterX();
 			SpawnLocation.Y = 1.0f *  room->getCenterY();
-			SpawnRotation.Yaw = 90.0f + 0.000001f;
+			SpawnRotation.Yaw = 90;
 			//CreateMeshComponent(1, SpawnLocation, SpawnRotation, ConvertedFString);
 			OutIndex = 1;
 		}
@@ -316,12 +318,18 @@ return false;
 void AMazeGenerationLogic::SuperGenMaze()
 {
 	maze = new MazeGen();
-	maze->Dimensioning(SizeMazeX, SizeMazeZ, SizeRoomXZ * 100); //100 - 1 метр
+	maze->Dimensioning(SizeMazeX, SizeMazeZ, SizeRoomXZ); 
 	maze->isGenerationMaze = true;
 	maze->GenerationMaze();
 	room = new Room(0, 0, maze->_sizeRoomXY, maze->_sizeRoomXY);//начальное положение
 }
 
+void AMazeGenerationLogic::ClearingMemory_TEST()
+{
+	maze->ClearingMemory();
+	delete maze;
+	delete room;
+}
 
 // Called when the game starts or when spawned
 void AMazeGenerationLogic::BeginPlay()

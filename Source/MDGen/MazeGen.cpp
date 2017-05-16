@@ -22,12 +22,13 @@ MazeGen::MazeGen(int sizeMazeX, int sizeMazeY, int sizeRoomXY/*, int sizeRoomY*/
 	Dimensioning(sizeMazeX, sizeMazeY, sizeRoomXY/*, sizeRoomY*/);
 }
 
-void MazeGen::Dimensioning(int sizeMazeX, int sizeMazeY, int sizeRoomXY/*, int sizeRoomY*/)
+void MazeGen::Dimensioning(int& sizeMazeX, int& sizeMazeY, int& sizeRoomXY/*, int sizeRoomY*/)
 {
 	//srand(unsigned(time(NULL)));
 	_sizeMazeX = (sizeMazeX % 2 == 0) ? ++sizeMazeX : sizeMazeX;
 	_sizeMazeY = (sizeMazeY % 2 == 0) ? ++sizeMazeY : sizeMazeY;
-	_sizeRoomXY = (sizeRoomXY == 0) ? 5 : sizeRoomXY;
+	_sizeRoomXY = (sizeRoomXY == 0) ? 26 : sizeRoomXY;
+	_sizeRoomXY *= 100; //100 - 1 метр в ue4
 	/*_sizeRoomY = sizeRoomY;*/
 	number_vertices = 1;
 }
@@ -68,6 +69,12 @@ bool MazeGen::Union(int x, int y)
 	mEdge[x] = y;
 
 	return true;
+}
+
+void MazeGen::ClearingMemory()
+{
+	for (int count = 0; count < _sizeMazeX; count++)
+		delete[]	Labirint[count];
 }
 
 void MazeGen::GenerationRoom()
