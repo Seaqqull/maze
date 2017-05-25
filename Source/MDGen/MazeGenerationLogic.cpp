@@ -130,6 +130,8 @@ void AMazeGenerationLogic::SpawnMeshComponent(int i, int j, FVector& SpawnLocati
 
 	if (maze->Labirint[i][j] > 0 || maze->Labirint[i][j] == -1)
 	{
+		SpawnLocation.X = 1.0f * room->getCenterX();
+		SpawnLocation.Y = 1.0f *  room->getCenterY();
 		OutIndex = 4;
 		//floor
 	}
