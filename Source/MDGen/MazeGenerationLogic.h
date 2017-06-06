@@ -36,19 +36,33 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Spawning)
 		int SizeRoomXZ;
 
-
-	UFUNCTION(BlueprintCallable, Category = Spawning)
-		int GetWallOrienration(int i, int j);
 	UFUNCTION(BlueprintCallable, Category = Spawning)
 		void SuperGenMaze();
 	UFUNCTION(BlueprintCallable, Category = Spawning)
-		void SpawnMeshComponent(int i, int j, FVector& SpawnLocation, FRotator& SpawnRotation, int& OutIndex);
+		/*
+			IndexOperation = 0 -> spawn top wall
+			IndexOperation = 1 -> spawn right wall
+			IndexOperation = 2 -> spawn bottom wall
+			IndexOperation = 3 -> spawn left wall
+			IndexOperation = 4 -> spawn floor wall
+			IndexOperation = 5 -> spawn ñorners inside wall
+			IndexOperation = 6 -> spawn ñorners outside wall
+			IndexOperation = 7 -> spawn doors (entrance or exit)
+			--------------------------------------------
+			IndexRoom - counter [0 ... count rooms]
+			--------------------------------------------
+			isTrue - flag vupolneniya
+			--------------------------------------------
+		*/
+		void SpawnMeshComponent(int IndexRoom, int IndexOperation, /*UPARAM(ref) int& bits_angle_wall,*/ FVector& SpawnLocation, FRotator& SpawnRotation, bool& isTrue);
 	UFUNCTION(BlueprintCallable, Category = Spawning)
 		void shiftRoomX();
 	UFUNCTION(BlueprintCallable, Category = Spawning)
 		void shiftRoomZ();
 	UFUNCTION(BlueprintCallable, Category = Spawning)
 		void ClearingMemory_TEST();
+
+
 
 
 

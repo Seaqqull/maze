@@ -7,11 +7,12 @@
 #include <time.h>
 #include "Edges.h"
 #include "Room.h"
+#include <bitset> 
 
 using namespace std;
 
 template <class R>
-class SortEdge
+class SortWall
 {
 public:
 	bool operator() (const R *first, const R *second)
@@ -24,14 +25,11 @@ public:
 class MDGEN_API MazeGen
 {
 private:
-	enum Direction { vertical = -3, horizontal };	//для генерации сетки
-													//int RoomStateIsFree;						// if > 1 then create enum. комната является проходом
-	int  number_vertices;						//количество вершин
-	vector<shortEdge*> _MazeGen;					//ребра
-	vector<int> mEdge;							//хранит номера вершин
-
+	int  number_vertices;							//количество вершин	
+	vector<Wall*> _MazeGen;							//стены 
+	vector<int> mEdge;								//хранит номера вершин
 private:
-	void FormLieder(int number_vertices);
+	void FormLieder();
 	int Check(int v);
 	void Swap(int* x, int* y);
 	bool Union(int x, int y);
@@ -40,30 +38,33 @@ private:
 	void ClearVector(std::vector<T*> &vec);
 	void GenerationRoom();
 
-	const int WALL_TOP = 1
-		, WALL_RIGHT = 2
-		, WALL_BOTTOM = 4
-		, WALL_LEFT = 8;
-
 public:
-	int** Labirint;								//сетка хранящая комнаты и стены
-	int _sizeMazeX, _sizeMazeY, _sizeRoomXY/*, _sizeRoomY*/;
+	vector<bitset<4>> Labirint;								//сетка хранящая комнаты  
+	int _sizeMazeX, _sizeMazeY, _sizeRoomXY, _entrance, _exit;
 	bool isGenerationMaze = false;
-	void Dimensioning(int& sizeX, int& sizeY, int& sizeRoomXY/*, int sizeRoomY*/);
 
 	MazeGen();
-	~MazeGen();
-	MazeGen(int sizeMazeX, int sizeMazeY, int sizeRoomXY/*, int sizeRoomY*/);
+	MazeGen(int sizeMazeX, int sizeMazeY, int sizeRoomXY);
 
-	void GenerationMST(int number_vertices, list<Edges*> *listEdges = NULL);
-	int GetWall(int currentX, int currentY);
+	void GenerationMST(int number_vertices);
+	inline bool GetWallOrientation(int index_wall) { return _MazeGen[index_wall]->_orientation; }
 
-	void ClearingMemory();
+	void ClearMemory()
+	{
+		ClearVector(_MazeGen);
+		mEdge.clear();
+		
+		Labirint.clear();
+		Labirint.shrink_to_fit();
+		
+		number_vertices = 0;
+		_entrance = 0;
+		_exit = 0;
+	}
 
 	void GenerationMaze()
 	{
 		GenerationRoom();
 		GenerationMST(number_vertices);
 	}
-
 };

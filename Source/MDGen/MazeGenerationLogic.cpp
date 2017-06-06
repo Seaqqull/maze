@@ -67,18 +67,7 @@ ISMComp->SetFlags(RF_Transactional);
 this->AddInstanceComponent(ISMComp);
 }*/
 
-int AMazeGenerationLogic::GetWallOrienration(int i, int j)
-{
-	if (maze->Labirint[i][j] > 0 || maze->Labirint[i][j] == -1)
-	{
-		//floor
-		return 0;
-	}
-	else
-	{//brick
-		return (maze->GetWall(i, j));
-	}
-}
+
 
 
 //void AMazeGenerationLogic::RegisterMazeComponent()
@@ -121,177 +110,157 @@ void AMazeGenerationLogic::shiftRoomX()
 
 void AMazeGenerationLogic::shiftRoomZ()
 {
-	room->shift(-maze->_sizeRoomXY * maze->_sizeMazeY, maze->_sizeRoomXY);
+	room->shift(-maze->_sizeRoomXY * maze->_sizeMazeY, -maze->_sizeRoomXY);
 }
 
 
-void AMazeGenerationLogic::SpawnMeshComponent(int i, int j, FVector& SpawnLocation, FRotator& SpawnRotation, int& OutIndex)
+void AMazeGenerationLogic::SpawnMeshComponent(int IndexRoom, int IndexOperation, FVector& SpawnLocation, FRotator& SpawnRotation, bool& isTrue)
 {
+	bitset<4> bits_simple_wall_1, bits_simple_wall_2, bits_simple_wall_3;
+	isTrue = true;
 
-	if (maze->Labirint[i][j] > 0 || maze->Labirint[i][j] == -1)
+	bits_simple_wall_1 = maze->Labirint[IndexRoom];
+
+	if (((IndexRoom + 1) % maze->_sizeMazeY) != 0)
+		bits_simple_wall_2 = maze->Labirint[IndexRoom + 1];
+	if (IndexRoom < (maze->_sizeMazeX * maze->_sizeMazeY) - maze->_sizeMazeY)
+		bits_simple_wall_3 = maze->Labirint[IndexRoom + maze->_sizeMazeY];
+
+
+	switch (IndexOperation)
 	{
-		SpawnLocation.X = 1.0f * room->getCenterX();
-		SpawnLocation.Y = 1.0f *  room->getCenterY();
-		OutIndex = 4;
-		//floor
-	}
-	else
+	case 0: //t
+		if ((bits_simple_wall_1 & bitset<4>(0x8)).any())
+		{
+			SpawnLocation.X = room->getCenterX();
+			SpawnLocation.Y = room->getTop();
+		}
+		else goto default_lable;
+		break;
+	case 1: //r
+		if ((bits_simple_wall_1 & bitset<4>(0x4)).any())
+		{
+			SpawnRotation.Yaw = 90;
+			SpawnLocation.X = room->getRight();
+			SpawnLocation.Y = room->getCenterY();
+		}
+		else goto default_lable;
+		break;
+	case 2: //b
+		if ((bits_simple_wall_1 & bitset<4>(0x2)).any())
+		{
+			SpawnLocation.X = room->getCenterX();
+			SpawnLocation.Y = room->getBottom();
+		}
+		else goto default_lable;
+		break;
+	case 3: //l	
+		if ((bits_simple_wall_1 & (bitset<4>)0x1).any())
+		{
+			SpawnRotation.Yaw = 90;
+			SpawnLocation.X = room->getLeft();
+			SpawnLocation.Y = room->getCenterY();
+		}
+		else goto default_lable;
+		break;
+	case 4: //f
+		SpawnLocation.X = room->getCenterX();
+		SpawnLocation.Y = room->getCenterY();
+		break;
+	case 5:// углы внутри
 	{
-		//brick
-
-		SpawnLocation.Z = 0.0f;
-		SpawnRotation.Pitch = 0.0f;
-		SpawnRotation.Yaw = 0.0f;
-		SpawnRotation.Roll = 0.0f;
-
-	 
-
-		switch (maze->GetWall(i, j))
+		if ((bits_simple_wall_1 & bitset<4>(0x2)).any() &
+			(bits_simple_wall_1 & bitset<4>(0x4)).any() &
+			(!(bits_simple_wall_2 & bitset<4>(0x2)).any()) &
+			(!(bits_simple_wall_3 & bitset<4>(0x4)).any())
+			)
 		{
-		case 1: //| 90 top		
+			SpawnRotation.Yaw = 180;
+			SpawnLocation.X = room->getRight();
+			SpawnLocation.Y = room->getBottom();
+		}
+	    else if ((bits_simple_wall_1 & bitset<4>(0x4)).any() &
+			(bits_simple_wall_2 & bitset<4>(0x2)).any() &
+			(!(bits_simple_wall_1 & bitset<4>(0x2)).any()) &
+			(!(bits_simple_wall_3 & bitset<4>(0x4)).any())
+			)
 		{
-			//pDC->FillRect(rect, new CBrush(RGB(240, 248, 255)));
-			SpawnLocation.X = 1.0f * room->getCenterX();
-			SpawnLocation.Y = 1.0f *  room->getCenterY();
 			SpawnRotation.Yaw = 90;
-			//CreateMeshComponent(0, SpawnLocation, SpawnRotation, ConvertedFString);
-			OutIndex = 0;
+			SpawnLocation.X = room->getRight();
+			SpawnLocation.Y = room->getBottom();
 		}
-		break;
-		case 2: // |
+		else if (
+			(bits_simple_wall_1 & bitset<4>(0x2)).any() &
+			(bits_simple_wall_3 & bitset<4>(0x4)).any() &
+			(!(bits_simple_wall_1 & bitset<4>(0x4)).any()) &
+			(!(bits_simple_wall_2 & bitset<4>(0x2)).any())
+			)
 		{
-			//pDC->FillRect(rect, new CBrush(RGB(250, 235, 215)));
-			SpawnLocation.X = 1.0f * room->getCenterX();
-			SpawnLocation.Y = 1.0f *  room->getCenterY();
-			//CreateMeshComponent(0, SpawnLocation, SpawnRotation, ConvertedFString);
-			OutIndex = 0;
-		}
-		break;
-		case 3: //Г 270 top
-		{
-			//pDC->FillRect(rect, new CBrush(RGB(0, 255, 255)));
-			SpawnLocation.X = 1.0f * room->getCenterX();
-			SpawnLocation.Y = 1.0f *  room->getCenterY();
-			SpawnRotation.Yaw = 270;
-			//CreateMeshComponent(2, SpawnLocation, SpawnRotation, ConvertedFString);
-			OutIndex = 2;
-		}
-		break;
-		case 4: // | 90 
-		{		//pDC->FillRect(rect, new CBrush(RGB(0, 0, 139)));
-			SpawnLocation.X = 1.0f * room->getCenterX();
-			SpawnLocation.Y = 1.0f *  room->getCenterY();
-			SpawnRotation.Yaw = 90;
-			//CreateMeshComponent(0, SpawnLocation, SpawnRotation, ConvertedFString);
-			OutIndex = 0;
-		}
-		break;
-		case 5: // | 90
-		{
-			SpawnLocation.X = 1.0f * room->getCenterX();
-			SpawnLocation.Y = 1.0f *  room->getCenterY();
-			SpawnRotation.Yaw = 90;
-			//CreateMeshComponent(0, SpawnLocation, SpawnRotation, ConvertedFString);
-			OutIndex = 0;
-		}
-		break;
-		case 6: // Г
-		{
-			//pDC->FillRect(rect, new CBrush(RGB(184, 134, 11)));
-			SpawnLocation.X = 1.0f * room->getCenterX();
-			SpawnLocation.Y = 1.0f *  room->getCenterY();
-			//CreateMeshComponent(2, SpawnLocation, SpawnRotation, ConvertedFString);
-			OutIndex = 2;
-		}
-		break;
-		case 7: // T -90
-		{
-			//pDC->FillRect(rect, new CBrush(RGB(169, 169, 169)));
-			SpawnLocation.X = 1.0f * room->getCenterX();
-			SpawnLocation.Y = 1.0f *  room->getCenterY();
 			SpawnRotation.Yaw = -90;
-			//CreateMeshComponent(1, SpawnLocation, SpawnRotation, ConvertedFString);
-			OutIndex = 1;
+			SpawnLocation.X = room->getRight();
+			SpawnLocation.Y = room->getBottom();
 		}
-		break;
-		case 8: // |
+		else if (
+			(bits_simple_wall_2 & bitset<4>(0x2)).any() &
+			(bits_simple_wall_3 & bitset<4>(0x4)).any() &
+			(!(bits_simple_wall_1 & bitset<4>(0x2)).any()) &
+			(!(bits_simple_wall_1 & bitset<4>(0x4)).any())
+			)
 		{
-			//pDC->FillRect(rect, new CBrush(RGB(0, 100, 0)));
-			SpawnLocation.X = 1.0f * room->getCenterX();
-			SpawnLocation.Y = 1.0f *  room->getCenterY();
-			//CreateMeshComponent(0, SpawnLocation, SpawnRotation, ConvertedFString);
-			OutIndex = 0;
+			SpawnRotation.Yaw = 0;
+			SpawnLocation.X = room->getRight();
+			SpawnLocation.Y = room->getBottom();
 		}
+		else goto default_lable;
+	}
 		break;
-		case 9: // Г 180
+	case 6: // углы снаружи
+	{
+		if (IndexRoom == 0)
 		{
-			//pDC->FillRect(rect, new CBrush(RGB(189, 183, 107)));
-			SpawnLocation.X = 1.0f * room->getCenterX(); //((UClass*)StaticMesh)
-			SpawnLocation.Y = 1.0f *  room->getCenterY();
-			SpawnRotation.Yaw = 180;
-			//CreateMeshComponent(2, SpawnLocation, SpawnRotation, ConvertedFString);
-			OutIndex = 2;
+			SpawnLocation.X = room->getLeft();
+			SpawnLocation.Y = room->getTop();
 		}
-		break;
-		case 10: // |
+	    else if (IndexRoom == (maze->_sizeMazeY - 1))
 		{
-			//pDC->FillRect(rect, new CBrush(RGB(139, 0, 139)));
-			SpawnLocation.X = 1.0f * room->getCenterX();
-			SpawnLocation.Y = 1.0f *  room->getCenterY();
-			//CreateMeshComponent(0, SpawnLocation, SpawnRotation, ConvertedFString);
-			OutIndex = 0;
+			SpawnRotation.Yaw = 270;
+			SpawnLocation.X = room->getRight();
+			SpawnLocation.Y = room->getTop();
 		}
-		break;
-		case 11: // T 180
+		else if ((IndexRoom == (maze->_sizeMazeY * maze->_sizeMazeX) - maze->_sizeMazeY))
 		{
-			//pDC->FillRect(rect, new CBrush(RGB(85, 107, 47)));
-			SpawnLocation.X = 1.0f * room->getCenterX();
-			SpawnLocation.Y = 1.0f *  room->getCenterY();
-			SpawnRotation.Yaw = 180;
-			//CreateMeshComponent(1, SpawnLocation, SpawnRotation, ConvertedFString);
-			OutIndex = 1;
-		}
-		break;
-		case 12: // Г 90 top
-		{
-			//pDC->FillRect(rect, new CBrush(RGB(255, 140, 0)));
-			SpawnLocation.X = 1.0f * room->getCenterX();
-			SpawnLocation.Y = 1.0f *  room->getCenterY();
 			SpawnRotation.Yaw = 90;
-			//CreateMeshComponent(2, SpawnLocation, SpawnRotation, ConvertedFString);
-			OutIndex = 2;
+			SpawnLocation.X = room->getLeft();
+			SpawnLocation.Y = room->getBottom();
 		}
-		break;
-		case 13: //T 90
+		/*else if ((IndexRoom != maze->_exit) & (IndexRoom == (maze->_sizeMazeY * maze->_sizeMazeX) - 1))
 		{
-			//pDC->FillRect(rect, new CBrush(RGB(153, 50, 204)));
-			SpawnLocation.X = 1.0f * room->getCenterX();
-			SpawnLocation.Y = 1.0f *  room->getCenterY();
-			SpawnRotation.Yaw = 90;
-			//CreateMeshComponent(1, SpawnLocation, SpawnRotation, ConvertedFString);
-			OutIndex = 1;
-		}
+			SpawnRotation.Yaw = 180;
+			SpawnLocation.X = room->getRight();
+			SpawnLocation.Y = room->getBottom();
+		}*/
+	    else goto default_lable;
+	}
 		break;
-		case 14: //T 0
+	case 7: //door
+	{
+		if (IndexRoom == maze->_entrance)
 		{
-			//pDC->FillRect(rect, new CBrush(RGB(139, 0, 0)));
-			SpawnLocation.X = 1.0f * room->getCenterX();
-			SpawnLocation.Y = 1.0f *  room->getCenterY();
-			//CreateMeshComponent(1, SpawnLocation, SpawnRotation, ConvertedFString);
-			OutIndex = 1;
+			SpawnLocation.X = room->getLeft();
+			SpawnLocation.Y = room->getCenterY();
 		}
-		break;
-		case 15: //+
+		else if (IndexRoom == maze->_exit)
 		{
-			//pDC->FillRect(rect, new CBrush(RGB(233, 150, 122)));
-			SpawnLocation.X = 1.0f * room->getCenterX();
-			SpawnLocation.Y = 1.0f *  room->getCenterY();
-			//CreateMeshComponent(3, SpawnLocation, SpawnRotation, ConvertedFString);
-			OutIndex = 3;
+			SpawnRotation.Yaw = 180;
+			SpawnLocation.X = room->getRight();
+			SpawnLocation.Y = room->getCenterY();
 		}
+		else goto default_lable;
+	}
 		break;
-		default: break;
-		}
+	default: 
+		default_lable:
+		isTrue = false;
 	}
 }
 
@@ -315,12 +284,9 @@ return false;
 }*/
 
 
-
-
 void AMazeGenerationLogic::SuperGenMaze()
 {
-	maze = new MazeGen();
-	maze->Dimensioning(SizeMazeX, SizeMazeZ, SizeRoomXZ); 
+	maze = new MazeGen(SizeMazeX, SizeMazeZ, SizeRoomXZ * 100); // 100 - 1 метр в ue4
 	maze->isGenerationMaze = true;
 	maze->GenerationMaze();
 	room = new Room(0, 0, maze->_sizeRoomXY, maze->_sizeRoomXY);//начальное положение
@@ -328,7 +294,7 @@ void AMazeGenerationLogic::SuperGenMaze()
 
 void AMazeGenerationLogic::ClearingMemory_TEST()
 {
-	maze->ClearingMemory();
+	maze->ClearMemory();
 	delete maze;
 	delete room;
 }
