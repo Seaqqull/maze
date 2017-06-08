@@ -8,24 +8,20 @@
 
 
 MazeGen::MazeGen() :
-	_sizeMazeX(15),
-	_sizeMazeY(15),
-	_sizeRoomXY(10),
+	_sizeMazeX(0),
+	_sizeMazeY(0),
+	_sizeRoomXY(0),
 	number_vertices(0)
 {
 
 }
 
-MazeGen::MazeGen(int sizeMazeX, int sizeMazeY, int sizeRoomXY) : 
-	_sizeMazeX(sizeMazeX),
-	_sizeMazeY(sizeMazeY),
-	_sizeRoomXY(sizeRoomXY),
-	number_vertices(0)
+MazeGen::MazeGen(int sizeMazeX, int sizeMazeY, int sizeRoomXY) : number_vertices(0)
 	{
-		//_sizeRoomXY = (sizeRoomXY == 0) ? sizeRoomXY++ : sizeRoomXY;
-		//_sizeRoomXY = ((sizeRoomXY & 1) == 0) ? sizeRoomXY++ : sizeRoomXY;
+		_sizeMazeX = (sizeMazeX <= 2) ? 3 : sizeMazeX;
+		_sizeMazeY = (sizeMazeY <= 2) ? 3 : sizeMazeY;
+		_sizeRoomXY = (sizeRoomXY <= 0) ? 100 : sizeRoomXY;
 	}
-
 
 
 void MazeGen::FormLieder()
@@ -70,9 +66,6 @@ void MazeGen::GenerationRoom()
 	int i, j, entrance, exit;
 
 	Labirint.push_back(0xF);
-	
-	if (_sizeMazeX == 1) _sizeMazeX++;
-	if (_sizeMazeY == 1 || _sizeMazeY == 2) _sizeMazeY++;
 
 	entrance = int(_sizeMazeX / 2);
 	exit = 1 + rand() % (_sizeMazeX - 2);
@@ -107,7 +100,7 @@ void MazeGen::GenerationRoom()
 
 }
 
-void MazeGen::GenerationMST(int number_vertices)
+void MazeGen::GenerationMST()
 {
 	sort(_MazeGen.begin(), _MazeGen.end(), SortWall<Wall>());
 	FormLieder();

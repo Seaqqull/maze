@@ -32,7 +32,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Spawning)
 		int SizeMazeX;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Spawning)
-		int SizeMazeZ;
+		int SizeMazeY;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Spawning)
 		int SizeRoomXZ;
 
