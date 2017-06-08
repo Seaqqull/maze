@@ -286,10 +286,10 @@ return false;
 
 void AMazeGenerationLogic::SuperGenMaze()
 {
-	maze = new MazeGen(SizeMazeX, SizeMazeZ, SizeRoomXZ * 100); // 100 - 1 метр в ue4
+	maze = new MazeGen(SizeMazeX, SizeMazeY, SizeRoomXZ * 100); // 100 - 1 метр в ue4
 	maze->isGenerationMaze = true;
-	maze->GenerationMaze();
-	room = new Room(0, 0, maze->_sizeRoomXY, maze->_sizeRoomXY);//начальное положение
+	maze->GenerationMaze(); 
+	room = new Room(0, 0, maze->_sizeRoomXY, -maze->_sizeRoomXY);//начальное положение
 }
 
 void AMazeGenerationLogic::ClearingMemory_TEST()

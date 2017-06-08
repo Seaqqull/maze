@@ -46,7 +46,7 @@ public:
 	MazeGen();
 	MazeGen(int sizeMazeX, int sizeMazeY, int sizeRoomXY);
 
-	void GenerationMST(int number_vertices);
+	void GenerationMST();
 	inline bool GetWallOrientation(int index_wall) { return _MazeGen[index_wall]->_orientation; }
 
 	void ClearMemory()
@@ -65,6 +65,6 @@ public:
 	void GenerationMaze()
 	{
 		GenerationRoom();
-		GenerationMST(number_vertices);
+		GenerationMST();
 	}
 };
