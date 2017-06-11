@@ -61,7 +61,11 @@ public:
 		void shiftRoomZ();
 	UFUNCTION(BlueprintCallable, Category = Spawning)
 		void ClearingMemory_TEST();
-
+	
+	UFUNCTION(BlueprintPure, Category = Spawning)
+		int GetEntrance() const;
+	UFUNCTION(BlueprintPure, Category = Spawning)
+		int GetExit() const;
 
 
 

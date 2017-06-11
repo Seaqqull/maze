@@ -43,6 +43,9 @@ public:
 	int _sizeMazeX, _sizeMazeY, _sizeRoomXY, _entrance, _exit;
 	bool isGenerationMaze = false;
 
+	int GetEntrance() const { return _entrance; }
+	int GetExit() const { return _exit;  }
+
 	MazeGen();
 	MazeGen(int sizeMazeX, int sizeMazeY, int sizeRoomXY);
 
@@ -58,8 +61,8 @@ public:
 		Labirint.shrink_to_fit();
 		
 		number_vertices = 0;
-		_entrance = 0;
-		_exit = 0;
+		//_entrance = 0;
+		//_exit = 0;
 	}
 
 	void GenerationMaze()

@@ -27,6 +27,15 @@ AMazeGenerationLogic::AMazeGenerationLogic(const FObjectInitializer& ObjectIniti
 	PrimaryActorTick.bCanEverTick = true;
 }
 
+int AMazeGenerationLogic::GetEntrance() const
+{
+	return  maze->GetEntrance();
+}
+ 
+int AMazeGenerationLogic::GetExit() const
+{
+	return maze->GetExit();
+}
 
 /*
 void AMazeGenerationLogic::CreateMeshComponent(int32 indexMeshe, FVector SpawnLocation, FRotator SpawnRotation, FName ConvertedFString)
@@ -103,12 +112,12 @@ this->AddInstanceComponent(ISMComp);
 //}
 
 
-void AMazeGenerationLogic::shiftRoomX()
+void AMazeGenerationLogic::shiftRoomX()  
 {
 	room->shift(maze->_sizeRoomXY, 0);
 }
 
-void AMazeGenerationLogic::shiftRoomZ()
+void AMazeGenerationLogic::shiftRoomZ()  
 {
 	room->shift(-maze->_sizeRoomXY * maze->_sizeMazeY, -maze->_sizeRoomXY);
 }
