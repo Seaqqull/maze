@@ -34,8 +34,8 @@ private:
 	void Swap(int* x, int* y);
 	bool Union(int x, int y);
 
-	template<typename T>
-	void ClearVector(std::vector<T*> &vec);
+	//template<typename T>
+	//void ClearVector(std::vector<T*> &vec);
 	void GenerationRoom();
 
 public:
@@ -54,7 +54,7 @@ public:
 
 	void ClearMemory()
 	{
-		ClearVector(_MazeGen);
+		//ClearVector(_MazeGen);
 		mEdge.clear();
 		
 		Labirint.clear();

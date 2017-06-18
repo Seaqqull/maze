@@ -125,16 +125,16 @@ void MazeGen::GenerationMST()
 	}
 }
 
-template<typename T>
-void MazeGen::ClearVector(std::vector<T*> &vec)
-{
-	int size = vec.size();
-	if (size == 0) return;
-	for (int i = 0; i < size; i++)
-		delete[] vec[i];
-	vec.clear();
-	vec.shrink_to_fit();
-}
+//template<typename T>
+//void MazeGen::ClearVector(std::vector<T*> &vec)
+//{
+//	int size = vec.size();
+//	if (size == 0) return;
+//	for (int i = 0; i < size; i++)
+//		delete[] vec[i];
+//	vec.clear();
+//	vec.shrink_to_fit();
+//}
 
 
 
