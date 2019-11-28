@@ -1,8 +1,9 @@
 // Copyright 1998-2017 Epic Games, Inc. All Rights Reserved.
 
+#include "MDGenCharacter.h"
 #include "MDGen.h"
 #include "Kismet/HeadMountedDisplayFunctionLibrary.h"
-#include "MDGenCharacter.h"
+
 
 //////////////////////////////////////////////////////////////////////////
 // AMDGenCharacter

@@ -5,21 +5,11 @@ using System.Collections.Generic;
 
 public class MDGenTarget : TargetRules
 {
-	public MDGenTarget(TargetInfo Target)
+	public MDGenTarget(TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Game;
+
+		ExtraModuleNames.AddRange( new string[] { "MDGen" } );
 	}
 
-	//
-	// TargetRules interface.
-	//
-
-	public override void SetupBinaries(
-		TargetInfo Target,
-		ref List<UEBuildBinaryConfiguration> OutBuildBinaryConfigurations,
-		ref List<string> OutExtraModuleNames
-		)
-	{
-		OutExtraModuleNames.Add("MDGen");
-	}
 }

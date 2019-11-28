@@ -3,6 +3,7 @@
 #pragma once
 
 #include "GameFramework/Actor.h"
+#include "Components/BoxComponent.h"
 #include "MazeGenerationLogic.generated.h"
 
 
