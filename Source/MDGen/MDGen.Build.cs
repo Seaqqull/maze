@@ -4,8 +4,10 @@ using UnrealBuildTool;
 
 public class MDGen : ModuleRules
 {
-	public MDGen(TargetInfo Target)
+	public MDGen(ReadOnlyTargetRules Target) : base(Target)
 	{
+		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
+		
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "HeadMountedDisplay" });
 	}
 }

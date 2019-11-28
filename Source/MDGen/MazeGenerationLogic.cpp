@@ -1,7 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "MDGen.h"
 #include "MazeGenerationLogic.h"
+#include "MDGen.h"
+
 #include "Generation.h"
 #include "MazeGen.h"
 //#include "EngineUtils.h"

@@ -3,6 +3,8 @@
 #pragma once
 
 #include "GameFramework/Actor.h"
+#include "Components/BoxComponent.h"
+#include "Components/StaticMeshComponent.h" 
 #include "Generation.generated.h"
 
 UCLASS()

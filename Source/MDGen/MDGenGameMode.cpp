@@ -1,7 +1,7 @@
 // Copyright 1998-2017 Epic Games, Inc. All Rights Reserved.
 
-#include "MDGen.h"
 #include "MDGenGameMode.h"
+#include "MDGen.h"
 #include "MDGenCharacter.h"
 
 AMDGenGameMode::AMDGenGameMode()
